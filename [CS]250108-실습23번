@@ -1,0 +1,309 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPL8UHlY77HOo3OaHAE7aZb",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/good0855/daou-FITs-3-ParkSunhong/blob/%EC%8B%A4%EC%8A%B5/%5BCS%5D250108-%EC%8B%A4%EC%8A%B523%EB%B2%88\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 실습 23 - 고객이탈 예측 모델 구축 실습\n",
+        "import numpy as np\n",
+        "import pandas as pd\n",
+        "import matplotlib.pyplot as plt\n",
+        "import seaborn as sns\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "P99AVAuj-KP2"
+      },
+      "execution_count": 1,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 랜덤넘버 고정\n",
+        "np.random.seed(42)"
+      ],
+      "metadata": {
+        "id": "9Md2-BxN-Lf8"
+      },
+      "execution_count": 2,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 고객수\n",
+        "n = 1000"
+      ],
+      "metadata": {
+        "id": "nDttznx6qnRi"
+      },
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "data = {\n",
+        "    'customer_id': np.arange(1, n+1),\n",
+        "    'age' : np.random.randint(18, 70, n),\n",
+        "    'tenure': np.random.randint(1, 10, n),\n",
+        "    'balance' : np.random.randint(0, 25000, n),\n",
+        "    'num_products' : np.random.randint(1, 4, n),\n",
+        "    'has_credit_card': np.random.choice([0, 1], n),\n",
+        "    'is_active_member': np.random.choice([0, 1], n),\n",
+        "    'estimated_salary': np.random.uniform(30000, 150000, n),\n",
+        "    'churn': np.random.choice([0, 1], n, p=[0.8, 0.2])    # 고객 이탈 여부(20% 이탈)\n",
+        "}"
+      ],
+      "metadata": {
+        "id": "beDnSFwGqaKO"
+      },
+      "execution_count": 7,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 데이터 생성\n",
+        "df = pd.DataFrame(data)\n",
+        "df.to_csv('customer_churn.csv', index=False)\n",
+        "\n",
+        "print(df.head())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "TV5zOrOtreka",
+        "outputId": "814a9d77-d999-462a-9249-bb6211a78f41"
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "   customer_id  age  tenure  balance  num_products  has_credit_card  \\\n",
+            "0            1   67       3    22617             2                0   \n",
+            "1            2   44       1     2663             1                0   \n",
+            "2            3   62       4    15033             2                0   \n",
+            "3            4   40       3     9465             1                1   \n",
+            "4            5   63       1     3326             3                1   \n",
+            "\n",
+            "   is_active_member  estimated_salary  churn  \n",
+            "0                 0     148047.822480      0  \n",
+            "1                 0     145285.770200      1  \n",
+            "2                 0      68458.427719      0  \n",
+            "3                 0     149555.616509      0  \n",
+            "4                 1     131466.143460      0  \n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 전처리 작업\n",
+        "\n",
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "\n",
+        "from sklearn.model_selection import train_test_split\n",
+        "from sklearn.preprocessing import StandardScaler\n",
+        "\n",
+        "\n",
+        "\n",
+        "# 훈련, 테스트 데이터 분할\n",
+        "\n",
+        "# 데이터 표준\n"
+      ],
+      "metadata": {
+        "id": "glwUE7dyseoY"
+      },
+      "execution_count": 9,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 결측치 확인\n",
+        "df.isnull().sum()\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 366
+        },
+        "id": "0kxO-TnAujBx",
+        "outputId": "67e0f018-9d03-4090-f00b-b979a3844507"
+      },
+      "execution_count": 11,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "customer_id         0\n",
+              "age                 0\n",
+              "tenure              0\n",
+              "balance             0\n",
+              "num_products        0\n",
+              "has_credit_card     0\n",
+              "is_active_member    0\n",
+              "estimated_salary    0\n",
+              "churn               0\n",
+              "dtype: int64"
+            ],
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>0</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>customer_id</th>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>age</th>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>tenure</th>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>balance</th>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>num_products</th>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>has_credit_card</th>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>is_active_member</th>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>estimated_salary</th>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>churn</th>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div><br><label><b>dtype:</b> int64</label>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 11
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.info()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "cvFtxb5Izvwd",
+        "outputId": "a7170e52-bb89-40e2-97f6-f8c44a345289"
+      },
+      "execution_count": 14,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "<class 'pandas.core.frame.DataFrame'>\n",
+            "RangeIndex: 1000 entries, 0 to 999\n",
+            "Data columns (total 9 columns):\n",
+            " #   Column            Non-Null Count  Dtype  \n",
+            "---  ------            --------------  -----  \n",
+            " 0   customer_id       1000 non-null   int64  \n",
+            " 1   age               1000 non-null   int64  \n",
+            " 2   tenure            1000 non-null   int64  \n",
+            " 3   balance           1000 non-null   int64  \n",
+            " 4   num_products      1000 non-null   int64  \n",
+            " 5   has_credit_card   1000 non-null   int64  \n",
+            " 6   is_active_member  1000 non-null   int64  \n",
+            " 7   estimated_salary  1000 non-null   float64\n",
+            " 8   churn             1000 non-null   int64  \n",
+            "dtypes: float64(1), int64(8)\n",
+            "memory usage: 70.4 KB\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "3hNi2IH4vnvw"
+      },
+      "execution_count": 12,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "rLc_nx14vvEA"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
