@@ -30,7 +30,7 @@ WHERE STATUS = 'APPROVED';
 -- 실습과제 3
 -- 1. 고객테이블에서 "555-1000"으로 시작하는 전화번호를 가진 고객의 이름과 이메일 출력
 SELECT CUSTOMER_ID, EMAIL FROM CUSTOMERS
-WHERE PHONE LIKE '555-1000';
+WHERE PHONE LIKE '555-1000%';
 
 -- 2. 계좌 테이블에서 계좌 유형이 "SAVINGS"이고 잔액이 10000이상인 계좌의 계좌 ID및 잔앵ㄱ 출력
 SELECT ACCOUNT_ID, BALANCE FROM ACCOUNTS
