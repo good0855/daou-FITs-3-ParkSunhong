@@ -1,0 +1,36 @@
+```java
+package javaexam2;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
+public class Test04 {
+    static final int LOWER_BOUND = 1;
+    static final int UPPER_BOUND = 10;
+
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<Integer>();
+        Random r = new Random();
+
+        for(int i = 0; i < 10; i++) {
+            // random.nextInt(max - min + 1) + min
+            list.add(r.nextInt(UPPER_BOUND - LOWER_BOUND + 1) + LOWER_BOUND);
+            System.out.printf("%d ", list.get(i));
+        }
+        System.out.println();
+
+        // 정렬
+        Collections.sort(list);
+
+        // 출력
+        for(int num: list) {
+            System.out.printf("%d ", num);
+        }
+
+
+    }
+}
+
+```
