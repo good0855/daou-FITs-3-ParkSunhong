@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace : 구분용도-->
+<mapper namespace="example.MyBook">
+
+    <!--  1. 모든 책 조회  -->
+    <select id="selectAllBookVO"  resultType="example.vo.BookVO">
+        <!--    CDATA는 SQL Query만의 특수문자가 tag로 인식되지 않도록 처리  -->
+        <![CDATA[
+            SELECT bisbn, btitle, bprice, bauthor
+            FROM book
+            ORDER BY bisbn
+        ]]>
+    </select>
+
+    <!--  2. 책 추가ㅣ  -->
+    <select id="insertBookVO" parameterType="example.vo.BookVO" resultType="int">
+        <!--    CDATA는 SQL Query만의 특수문자가 tag로 인식되지 않도록 처리  -->
+        <![CDATA[
+            INSERT INTO book (bisbn, btitle, bprice, bauthor)
+            VALUES (#{bisbn}, #{btitle}, #{bprice}, #{bauthor})
+        ]]>
+    </select>
+
+    <!--  3. 단일 책 검색  -->
+    <select id="selectByTitleBookVO" parameterType="String" resultType="example.vo.BookVO">
+        <![CDATA[
+            SELECT bisbn, btitle, bprice, bauthor
+            FROM book
+            WHERE btitle LIKE '%' ||  #{btitle} || '%'
+            ]]>
+    </select>
+
+    <!--  4. 책 업데이트  -->
+    <update id="updateBookByISBN" parameterType="example.vo.BookVO">
+    <![CDATA[
+        UPDATE book
+        SET btitle = #{btitle}, bprice = #{bprice}, bauthor = #{bauthor}
+        WHERE bisbn = #{bisbn}
+            ]]>
+    </update>
+
+    <!-- 5. 책 삭제   -->
+    <delete id="deleteBookByISBN" parameterType="String">
+        <![CDATA[
+        DELETE FROM book
+        WHERE bisbn = #{bisbn}
+        ]]>
+    </delete>
+
+
+</mapper>
