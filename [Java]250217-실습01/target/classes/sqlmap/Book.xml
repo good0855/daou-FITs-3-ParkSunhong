@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace : 구분용도-->
+<mapper namespace="org.example.Book">
+
+    <!--  책 조회 -->
+    <select id="selectBookByKeywordAndPrice"
+            parameterType="org.example.helloservletproject.dto.BookRequestDTO"
+            resultType="org.example.helloservletproject.vo.BookVO">
+        <!--    CDATA는 SQL Query만의 특수문자가 tag로 인식되지 않도록 처리  -->
+        <![CDATA[
+            SELECT bisbn, btitle, bprice, bauthor
+            FROM book
+            WHERE btitle LIKE '%' ||  #{keyword} || '%'
+            AND bprice < #{priceLimit}
+            ORDER BY btitle
+        ]]>
+    </select>
+
+    <!--  책 상세조회 -->
+    <select id="selectBookDetail"
+            parameterType="String"
+            resultType="org.example.helloservletproject.vo.BookVO">
+        <!--    CDATA는 SQL Query만의 특수문자가 tag로 인식되지 않도록 처리  -->
+        <![CDATA[
+            SELECT bisbn, btitle, bprice, bauthor
+            FROM book
+            WHERE bisbn = #{bisbn}
+        ]]>
+    </select>
+
+
+
+</mapper>
