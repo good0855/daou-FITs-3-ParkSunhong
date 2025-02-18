@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace : 구분용도-->
+<mapper namespace="com.daou.Board">
+    <!--  모든 글 가져오기 -->
+    <select id="selectAllContent"
+            resultType="BoardVO">
+        <![CDATA[
+        SELECT board_id, member_id, title, content, created_at, updated_at
+        FROM boards
+        ]]>
+    </select>
+
+</mapper>
