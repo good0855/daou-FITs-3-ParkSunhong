@@ -1,0 +1,96 @@
+# 실습 11(38p)
+## 1. 
+```c
+#include <stdio.h>
+
+int add(int a, int b);
+int del(int a, int b);
+int mul(int a, int b);
+double divide(int a, int b);
+int main()
+{
+    int a, b;   
+    scanf("%d %d", &a, &b);
+    
+    printf("%d + %d = %d\n", a, b, add(a, b));
+    printf("%d - %d = %d\n", a, b, del(a, b));
+    printf("%d * %d = %d\n", a, b, mul(a, b));
+    printf("%d / %d = %.2lf\n", a, b, divide(a, b));
+    
+    return 0;
+}
+
+int add(int a, int b) {
+    return a + b;
+}
+
+int del(int a, int b) {
+    return a - b;
+}
+
+int mul(int a, int b) {
+    return a * b;
+}
+
+double divide(int a, int b) {
+    return (double) a / b;
+}
+
+```
+
+
+## 2.
+```c
+#include <stdio.h>
+void gugudan();
+int main()
+{
+    gugudan();
+
+    return 0;
+}
+
+void gugudan() {
+	int dan;
+	printf("출력을 원하는 단은? ");
+	scanf("%d", &dan);
+	getchar();
+
+	for (int i = 1; i <= 9; i++) {
+		printf("%d X %d = %d\n", dan, i, dan * i);
+	}
+}
+```
+
+## 3. 
+
+```c
+
+
+#include <stdio.h>
+#include <conio.h>
+
+void convert();
+
+int main() {
+    convert();
+    return 0;
+}
+
+void convert() {
+    char c;
+    printf("문자 입력 >> ");
+    scanf(" %c", &c);
+
+
+    if (c >= 'a' && c <= 'z') {  // 소문자인 경우
+        printf("%c => %c\n", c, c - ('a' - 'A'));  // 대문자로 변환
+    } else if (c >= 'A' && c <= 'Z') {  // 대문자인 경우
+        printf("%c => %c\n", c, c + ('a' - 'A'));  // 소문자로 변환
+    } else {
+        printf("변환할 수 없는 문자입니다.\n");
+    }
+}
+
+
+```
